@@ -637,54 +637,11 @@ def write_html(graph_data: Dict[str, Any]) -> None:
       height: 100vh;
       background: white;
     }}
-
-    #panel {{
-      position: fixed;
-      top: 12px;
-      left: 12px;
-      background: rgba(255, 255, 255, 0.92);
-      color: #111;
-      padding: 12px 14px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 13px;
-      z-index: 10;
-      max-width: 460px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    }}
-
-    #refreshBtn {{
-      margin-top: 10px;
-      padding: 8px 12px;
-      border: 1px solid #006400;
-      background: #006400;
-      color: white;
-      border-radius: 7px;
-      cursor: pointer;
-      font-weight: 600;
-    }}
-
-    #status {{
-      margin-top: 8px;
-      color: #333;
-      font-size: 12px;
-      line-height: 1.35;
-    }}
   </style>
   <script src="https://unpkg.com/3d-force-graph"></script>
 </head>
 
 <body>
-  <div id="panel">
-    <b>Notion Graph 3D</b><br>
-    Tamanho do nó = Source material notes + Main notes<br>
-    Linha = páginas que compartilham Source material notes ou Main notes<br>
-    Arraste para girar · Scroll para zoom · Clique em um ponto para abrir a página<br>
-
-    <button id="refreshBtn">Recarregar visualização</button>
-    <div id="status"></div>
-  </div>
-
   <div id="graph"></div>
 
   <script>
@@ -717,18 +674,6 @@ def write_html(graph_data: Dict[str, Any]) -> None:
 
     Graph.d3Force("charge").strength(-130);
     Graph.d3Force("link").distance(110);
-
-    const meta = graphData.meta || {{}};
-    document.getElementById("status").innerHTML =
-      "Atualizado em: " + (meta.updated_at || "—") + "<br>" +
-      "Nós: " + (meta.node_count ?? graphData.nodes.length) + " · " +
-      "Links: " + (meta.link_count ?? graphData.links.length) + "<br>" +
-      "Source material: " + (meta.source_edges ?? 0) + " · " +
-      "Main notes: " + (meta.main_edges ?? 0);
-
-    document.getElementById("refreshBtn").addEventListener("click", () => {{
-      window.location.reload();
-    }});
   </script>
 </body>
 </html>
